@@ -39,9 +39,10 @@ export default({ config, db }) => {
   api.post('/add', (req, res) => {
     console.log(req.body.data);
     let newNote = new Note();
-    newNote.name = req.body.name;
     newNote.content = req.body.content;
-    newNote.cntxId = req.body.cntxId;
+    if(req.body.cntxId){
+      newNote.cntxId = req.body.cntxId;
+    }
     newNote.ts = req.body.ts;
 
     newNote.save(function(err) {
@@ -67,14 +68,21 @@ export default({ config, db }) => {
 
   // '/v1/notes/:id' - PUT - update an existing note
   api.put('/:id', (req, res) => {
+    console.log(req.body);
     Note.findById(req.params.id, (err, note) => {
       if (err) {
         res.send(err);
       }
-      note.name = req.body.name;
       note.content = req.body.content;
       note.isSecret = req.body.isSecret;
-      note.ts = req.body.ts;
+      if(req.body.ts){
+        note.ts = req.body.ts;
+      }
+      if(req.body.cntxId){
+        note.cntxId = req.body.cntxId;
+      }else{
+        note.cntxId = "";
+      }
       note.save(function(err) {
         if (err) {
           res.send(err);

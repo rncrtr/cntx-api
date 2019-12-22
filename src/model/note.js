@@ -2,10 +2,6 @@ import mongoose from 'mongoose';
 let Schema = mongoose.Schema;
 
 let NoteSchema = new Schema({
-  name: {
-    type: String,
-    required: true
-  },
   content: {
     type: String
   },
@@ -14,12 +10,10 @@ let NoteSchema = new Schema({
     default: true
   },
   cntxId:{
-    type: String,
-    required: true
+    type: String
   },
   ts:{
-    type: Date,
-    required: true
+    type: Date
   }
 });
 

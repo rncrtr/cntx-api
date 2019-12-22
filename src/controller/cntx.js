@@ -11,7 +11,7 @@ export default({ config, db }) => {
         res.send(err);
       }
       res.json(cntxs);
-    });
+    }).sort( { ord: 1 } );
   });
 
   // '/v1/cntx/:id' - GET a specific test acct
@@ -28,6 +28,7 @@ export default({ config, db }) => {
   api.post('/add', (req, res) => {
     let newCntx = new Cntx();
     newCntx.name = req.body.name;
+    newCntx.ord = req.body.ord;
     newCntx.isSecret = req.body.isSecret;
 
     newCntx.save(function(err) {
@@ -50,7 +51,7 @@ export default({ config, db }) => {
         res.json({message: "Cntx Successfully Removed"});
       });
   });
-
+  
   // '/v1/cntx/:id' - PUT - update an existing record
   api.put('/:id', (req, res) => {
     Cntx.findById(req.params.id, (err, cntx) => {
@@ -58,6 +59,7 @@ export default({ config, db }) => {
         res.send(err);
       }
       cntx.name = req.body.name;
+      cntx.ord = req.body.ord;
       cntx.isSecret = req.body.isSecret;
 
       cntx.save(function(err) {
@@ -69,5 +71,6 @@ export default({ config, db }) => {
     });
   });
 
+  
   return api;
 }
